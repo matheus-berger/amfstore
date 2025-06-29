@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import 'dotenv/config';
 import produtoRoutes from './routes/produto.routes';
+import usuarioRotas from './routes/usuario.routes';
 
 // Configuração do Servidor
 const app = express();
@@ -25,6 +26,7 @@ app.use(express.json());
 
 // Produto
 app.use('/api', produtoRoutes);
+app.use('/api', usuarioRotas);
 
 /* Rotas de Testes */
 app.get('/', (_request: Request, response: Response) => {
