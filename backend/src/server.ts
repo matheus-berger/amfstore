@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import 'dotenv/config';
+import produtoRoutes from './routes/produto.routes';
 
 // Configuração do Servidor
 const app = express();
@@ -15,11 +16,22 @@ mongoose.connect(process.env.DATABASE_URL!)
     console.log("Razão: ", erro);
   });
 
-// Rotas da API
+/*  Middlewares */
+
+// middleware para o Express entender JSON
+app.use(express.json());
+
+/* Rotas da API */
+
+// Produto
+app.use('/api', produtoRoutes);
+
+/* Rotas de Testes */
 app.get('/', (_request: Request, response: Response) => {
   return response.json({mensagem: 'Servidor AMFStore'});
 });
 
+//
 app.listen(PORT, () => {
   console.log(`🚀 Servidor iniciado na porta ${PORT}!`)
 });
