@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import 'dotenv/config';
 
@@ -16,7 +16,7 @@ mongoose.connect(process.env.DATABASE_URL!)
   });
 
 // Rotas da API
-app.get('/', (_request, response) => {
+app.get('/', (_request: Request, response: Response) => {
   return response.json({mensagem: 'Servidor AMFStore'});
 });
 
