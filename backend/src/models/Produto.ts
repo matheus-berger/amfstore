@@ -5,7 +5,7 @@ export interface IProduto extends Document {
   nome: string;
   descricao: string;
   preco: number;
-  categoria: 'Vestuário' | 'Utensílios' | 'Papelaria' | 'Acessórios' | 'Bolsas e Mochilas';
+  categoria: 'Vestuário' | 'Utensílios' | 'Papelaria' | 'Acessórios' | 'Bolsas e Mochilas' | 'Outros';
 }
 
 // Schema para o Mongoose criar o modelo
