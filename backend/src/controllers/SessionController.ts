@@ -5,7 +5,6 @@ import Usuario from "../models/Usuario";
 import authConfig from '../config/auth';
 
 class SessionController {
-  
   public async create(requisicao: Request, resposta: Response): Promise<Response> {
     try {
       const { email, senha } = requisicao.body;
