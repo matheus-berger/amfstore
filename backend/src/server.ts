@@ -24,19 +24,29 @@ mongoose.connect(process.env.DATABASE_URL!)
 /*  Middlewares */
 
 // middleware para o Express entender JSON
-app.use(cors());
 app.use(express.json());
+
+/*  Configuração do CORS  */
+
+const urlsOriginsPermitidas = [
+  'http://localhost:5173'
+];
+
+const options: cors.CorsOptions = {
+  origin: urlsOriginsPermitidas
+};
+
+app.use(cors(options));
 
 /* Rotas da API */
 
-// Produto
 app.use('/api', sessionRoutes);
 app.use('/api', produtoRoutes);
 app.use('/api', usuarioRotas);
 
 /* Rotas de Testes */
 app.get('/', (_request: Request, response: Response) => {
-  return response.json({mensagem: 'Servidor AMFStore'});
+  return response.json({mensagem: 'Servidor AMFStore'})
 });
 
 // Gerenciador de Erros
