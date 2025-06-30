@@ -1,11 +1,12 @@
 import mongoose, {Schema, Document} from "mongoose";
+import { CategoriaProduto, CATEGORIAS_PERMITIDAS } from "../types/produto-types";
 
 // Interface da tipagem correta do documento Produto
 export interface IProduto extends Document {
   nome: string;
   descricao: string;
   preco: number;
-  categoria: 'Vestuário' | 'Utensílios' | 'Papelaria' | 'Acessórios' | 'Bolsas e Mochilas' | 'Outros';
+  categoria: CategoriaProduto;
 }
 
 // Schema para o Mongoose criar o modelo
@@ -13,7 +14,7 @@ const ProdutoSchema: Schema = new Schema({
   nome: { type: String, required: true},
   descricao: { type: String, required: true},
   preco: { type: Number, required: true},
-  categoria: { type: String, required: true},
+  categoria: { type: String, required: true, enum: CATEGORIAS_PERMITIDAS}
 }, {
   timestamps: true // Adiciona os campos createdAt e updatedAt automaticamente
 });
