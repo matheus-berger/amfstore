@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import authConfig from '../config/auth';
+import { AnySchema } from "yup";
 
 // Tipagem do Request no Express
 interface ITokenPayload {
@@ -9,6 +10,7 @@ interface ITokenPayload {
   exp: number;
 }
 
+// Middleware de Autenticação
 export default function authMiddleware(requisicao: Request, resposta: Response, next: NextFunction) {
   const authHeaders = requisicao.headers.authorization;
 
@@ -54,4 +56,23 @@ export default function authMiddleware(requisicao: Request, resposta: Response, 
     });
   }
 
+}
+
+// Middleware de Validação genérico reutilizavel
+export const validate = (schema: AnySchema) => async (requisicao: Request, resposta: Response, next: NextFunction) => {
+  try {
+    await schema.validate({
+      body: requisicao.body,
+      query: requisicao.query,
+      params: requisicao.params,
+    });
+
+    return next();
+
+  } catch (erro: any) {
+    return resposta.status(400).json({
+      type: erro.name,
+      message: erro.message
+    });
+  }
 }
