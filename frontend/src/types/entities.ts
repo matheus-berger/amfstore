@@ -7,3 +7,9 @@ export interface Produto {
   categoria: string;
   imagem_url?: string;
 }
+
+export interface IUsuario {
+  _id: string;
+  nome: string;
+  email: string;
+}
