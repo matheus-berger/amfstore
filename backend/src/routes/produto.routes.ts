@@ -1,16 +1,19 @@
 import { Router } from "express";
 import ProdutoController from "../controllers/ProdutoController";
+import authMiddleware from "../middlewares/auth";
 
 const produtoRoutes = Router();
 
-produtoRoutes.post('/produtos', ProdutoController.create);
-
+// Rotas públicas
 produtoRoutes.get('/produtos', ProdutoController.index);
-
 produtoRoutes.get('/produtos/:id', ProdutoController.show);
 
-produtoRoutes.put('/produtos/:id', ProdutoController.update);
+// Midlaware de segurança para as rotas privadas
+produtoRoutes.use(authMiddleware);  // Usa o middleware daqui para baixo
 
+// Rotas privadas
+produtoRoutes.post('/produtos', ProdutoController.create);
+produtoRoutes.put('/produtos/:id', ProdutoController.update);
 produtoRoutes.delete('/produtos/:id', ProdutoController.delete);
 
 export default produtoRoutes;
