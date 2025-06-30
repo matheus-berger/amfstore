@@ -6,6 +6,7 @@ import produtoRoutes from './routes/produto.routes';
 import usuarioRotas from './routes/usuario.routes';
 import sessionRoutes from './routes/session.routes';
 import AppError from './errors/AppError';
+import cors from 'cors';
 
 // Configuração do Servidor
 const app = express();
@@ -23,6 +24,7 @@ mongoose.connect(process.env.DATABASE_URL!)
 /*  Middlewares */
 
 // middleware para o Express entender JSON
+app.use(cors());
 app.use(express.json());
 
 /* Rotas da API */
