@@ -26,7 +26,7 @@ app.use(express.json());
 /* Rotas da API */
 
 // Produto
-app.use('/api', sessionRoutes)
+app.use('/api', sessionRoutes);
 app.use('/api', produtoRoutes);
 app.use('/api', usuarioRotas);
 
