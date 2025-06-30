@@ -10,32 +10,48 @@ interface ITokenPayload {
 }
 
 export default function authMiddleware(requisicao: Request, resposta: Response, next: NextFunction) {
-  const { autorizacao } = requisicao.headers;
+  const authHeaders = requisicao.headers.authorization;
 
-  if (autorizacao) {
-    // Separando o token, que por sua vez vem no formato "Bearer [token]".
-    const [, token] = autorizacao.split(' ');
+  // Verificando se o cabeçalho existe 
+  if (authHeaders) {
+    // Tratando o formato Barear Token 
+    const partesBarearToken = authHeaders.split(' ');
 
-    try {
-      // Verificando validade do token
-      const data = jwt.verify(token, authConfig.secret);
-      const { id } = data as ITokenPayload;
+    // Verificando se o Barear Token tem exatamente duas partes
+    if (partesBarearToken.length === 2) {
+      const [scheme, token] = partesBarearToken;
 
-      // Se for válido, anexa o ID do usuário à requisição
-      requisicao.usuarioID = id;
+      // Verificando se a primeira parte é exatamente "Bearer" (sem diferenciar maiúsculas/minúsculas).
+      if (/^Bearer$/i.test(scheme)) {
+        try {
+          const data = jwt.verify(token, authConfig.secret);
+          const { id } = data as ITokenPayload;
 
-      // Permitindo que a requisião prossiga para o controller
-      return next();
+          requisicao.usuarioID = id;
 
-    } catch (erro) {
+          return next();
+
+        } catch (erro) {
+          return resposta.status(401).json({
+            erro: `Erro na auntenticação da rota. Razão: ${erro}`
+          })
+        }
+      } else {
+        return resposta.status(401).json({
+          erro: "Barear Token mal formatado."
+        })
+      }
+
+    } else {
       return resposta.status(401).json({
-        erro: "Token inválido."
+        erro: "Erro no formato do token de autenticação."
       });
     }
 
   } else {
     return resposta.status(401).json({
-      erro: "Token não fornecido."
+      erro: "Barear Token não fornecido."
     });
   }
+
 }
