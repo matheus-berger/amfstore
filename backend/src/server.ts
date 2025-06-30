@@ -6,6 +6,7 @@ import produtoRoutes from './routes/produto.routes';
 import usuarioRotas from './routes/usuario.routes';
 import sessionRoutes from './routes/session.routes';
 import AppError from './errors/AppError';
+import cors from 'cors';
 
 // Configuração do Servidor
 const app = express();
@@ -25,16 +26,27 @@ mongoose.connect(process.env.DATABASE_URL!)
 // middleware para o Express entender JSON
 app.use(express.json());
 
+/*  Configuração do CORS  */
+
+const urlsOriginsPermitidas = [
+  'http://localhost:5173'
+];
+
+const options: cors.CorsOptions = {
+  origin: urlsOriginsPermitidas
+};
+
+app.use(cors(options));
+
 /* Rotas da API */
 
-// Produto
 app.use('/api', sessionRoutes);
 app.use('/api', produtoRoutes);
 app.use('/api', usuarioRotas);
 
 /* Rotas de Testes */
 app.get('/', (_request: Request, response: Response) => {
-  return response.json({mensagem: 'Servidor AMFStore'});
+  return response.json({mensagem: 'Servidor AMFStore'})
 });
 
 // Gerenciador de Erros
