@@ -8,6 +8,7 @@ interface AuthContextData {
   token: string | null;
   signIn(credentials: object): Promise<void>;
   signOut(): void;
+  loading: boolean;
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -16,31 +17,37 @@ export const AuthContext = createContext<AuthContextData>({} as AuthContextData)
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [usuario, setUsuario] = useState<IUsuario | null>(null);
   const [token, setToken] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const storedUsuario = localStorage.getItem('@AMFStore:usuario');
-    const storedToken = localStorage.getItem('@AMFStore:token');
+    async function loadStorageData() { 
+      const storedUsuario = localStorage.getItem('@AMFStore:usuario');
+      const storedToken = localStorage.getItem('@AMFStore:token');
 
-    if (storedUsuario && storedToken) {
-      
-      try {
-        const usuarioObject = JSON.parse(storedUsuario);
+      if (storedUsuario && storedToken) {
+        try {
+          const usuarioObject = JSON.parse(storedUsuario);
 
-        if (usuarioObject) {
-          setUsuario(usuarioObject);
-          setToken(storedToken);
-          api.defaults.headers.Authorization = `Bearer ${storedToken}`;
-        } else {
-          throw new Error("Dados do usuário no localStorage são nulos após o parse.");
+          if (usuarioObject) {
+            setUsuario(usuarioObject);
+            setToken(storedToken);
+            api.defaults.headers.Authorization = `Bearer ${storedToken}`;
+          } else {
+            throw new Error("Dados do usuário no localStorage são nulos após o parse.");
+          }
+
+        } catch (erro) {
+          console.error("Falha ao carregar dados do localStorage...", erro);
+          localStorage.removeItem('@AMFStore:usuario');
+          localStorage.removeItem('@AMFStore:token');
         }
-
-      } catch (erro) {
-        console.error("Falha ao carregar dados do localStorage...", erro);
-        localStorage.removeItem('@AMFStore:usuario');
-        localStorage.removeItem('@AMFStore:token');
       }
-  
     }
+
+    loadStorageData().finally(() => {
+      setLoading(false);
+    });
+  
   }, []);
 
   async function signIn(credentials: object) {
@@ -71,7 +78,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <AuthContext.Provider value={{ signed: !!usuario, usuario, token, signIn, signOut }}>
+    <AuthContext.Provider value={{ signed: !!usuario, usuario, token, loading, signIn, signOut }}>
       {children}
     </AuthContext.Provider>
   );

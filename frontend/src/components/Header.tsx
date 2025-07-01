@@ -18,7 +18,7 @@ export function Header() {
           <Link to="/" className="text-gray-600 hover:text-blue-500">Produtos</Link>
           {signed ? (
             <>
-              <span className="text-gray-800">Olá, {usuario?.nome}</span>
+              <span className="text-gray-800">Olá, <Link to="/dashboard" className="text-gray-600 hover:text-blue-500">{usuario?.nome}</Link></span>
               <button onClick={signOut} className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600">
                 Sair
               </button>
@@ -42,7 +42,7 @@ export function Header() {
           <Link to="/" className="text-gray-600 hover:text-blue-500" onClick={() => setMenuSanduicheAberto(false)}>Produtos</Link>
           {signed ? (
             <>
-              <span className="text-gray-800">Olá, {usuario?.nome}</span>
+              <span className="text-gray-800">Olá, <Link to="/dashboard" className="text-gray-600 hover:text-blue-500">{usuario?.nome}</Link></span>
               <button onClick={() => { signOut(); setMenuSanduicheAberto(false); }} className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 w-full">
                 Sair
               </button>

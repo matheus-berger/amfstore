@@ -3,6 +3,8 @@ import { HomePage } from "./pages/Home";
 import { LoginPage } from "./pages/Login";
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
+import { ProtectedRoute } from "./components/ProtectedRoute";
+import { DashboardPage } from "./pages/Dashboard";
 
 // Componente de Layout Principal
 function RootLayout() {
@@ -24,7 +26,15 @@ const router = createBrowserRouter([
     element: <RootLayout />,
     children: [
       { index: true, element: <HomePage /> },
-      { path: "login", element: <LoginPage /> }
+      { path: "login", element: <LoginPage /> },
+      {
+        path: "dashboard",
+        element: (
+          <ProtectedRoute>
+            <DashboardPage />
+          </ProtectedRoute>
+        )
+      }
     ]
   }
 ]);
