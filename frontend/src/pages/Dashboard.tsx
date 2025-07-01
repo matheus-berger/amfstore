@@ -1,7 +1,6 @@
 import { useState, type ChangeEvent } from 'react';
 import {useAuth} from '../hooks/useAuth'
 import api from '../services/api';
-const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
 export function DashboardPage() {
   const { usuario, token, updateUser } = useAuth();
@@ -40,7 +39,7 @@ export function DashboardPage() {
   }
 
   const avatarUrl = usuario?.avatar 
-    ? `${apiUrl}/files/${usuario.avatar}` 
+    ? `https://amfstore.onrender.com/files/${usuario.avatar}` 
     : `https://placehold.co/150x150/e2e8f0/64748b?text=${usuario?.nome[0]}`;
 
 
