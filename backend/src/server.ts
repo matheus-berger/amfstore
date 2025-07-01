@@ -31,8 +31,7 @@ app.use(express.json());
 /*  Configuração do CORS  */
 
 const urlsOriginsPermitidas = [
-  'http://localhost:5173',
-  'https://amfstore.vercel.app/'
+  "https://amfstore.vercel.app"
 ];
 
 const options: cors.CorsOptions = {
