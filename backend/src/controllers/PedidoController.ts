@@ -13,7 +13,7 @@ class PedidoController {
 
     const produtosDoPedido = items.map((item: any) => ({
       produto: item._id,
-      quantidade: item.quantity,
+      quantidade: item.quantidade,
       preco: item.preco,
     }));
 
