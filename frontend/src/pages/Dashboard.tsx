@@ -22,7 +22,7 @@ export function DashboardPage() {
     data.append('avatar', avatar);
 
     try {
-      const response = await api.patch('/users/avatar', data, {
+      const response = await api.patch('/usuarios/avatar', data, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
