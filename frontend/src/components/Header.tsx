@@ -24,7 +24,7 @@ export function Header() {
         </Link>
         
         <div className="flex items-center gap-4">
-          <Link to="/cart" className="relative">
+          <Link to="/carrinho" className="relative">
             <svg className="w-6 h-6 text-gray-600 hover:text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
             {totalItems > 0 && (
               <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
@@ -61,6 +61,7 @@ export function Header() {
       {menuSanduicheAberto && (
         <nav className="md:hidden bg-white absolute w-full shadow-lg flex flex-col items-center p-4 gap-4 z-50">
           <Link to="/" className="text-gray-600 hover:text-blue-500" onClick={() => setMenuSanduicheAberto(false)}>Produtos</Link>
+          <Link to="/carrinho" className="text-gray-600 hover:text-blue-500" onClick={() => setMenuSanduicheAberto(false)}>Carrinho</Link>
           {signed ? (
             <>
               <span className="text-gray-800">Olá, <Link to="/dashboard" className="text-gray-600 hover:text-blue-500">{usuario?.nome}</Link></span>
