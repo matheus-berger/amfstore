@@ -8,6 +8,7 @@ import sessionRoutes from './routes/session.routes';
 import AppError from './errors/AppError';
 import cors from 'cors';
 import pedidoRoutes from './routes/pedido.routes';
+import uploadConfig from './config/upload';
 
 // Configuração do Servidor
 const app = express();
@@ -38,6 +39,10 @@ const options: cors.CorsOptions = {
 };
 
 app.use(cors(options));
+
+/* Para imagens */
+
+app.use('/files', express.static(uploadConfig.directory));
 
 /* Rotas da API */
 

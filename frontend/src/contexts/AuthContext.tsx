@@ -8,6 +8,7 @@ interface AuthContextData {
   token: string | null;
   signIn(credentials: object): Promise<void>;
   signOut(): void;
+  updateUser(user: IUsuario): void;
   loading: boolean;
 }
 
@@ -77,8 +78,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     api.defaults.headers.Authorization = null;
   }
 
+  function updateUser(updatedUser: IUsuario) {
+    setUsuario(updatedUser);
+    localStorage.setItem('@AMFStore:user', JSON.stringify(updatedUser));
+  }
+
+
   return (
-    <AuthContext.Provider value={{ signed: !!usuario, usuario, token, loading, signIn, signOut }}>
+    <AuthContext.Provider value={{ signed: !!usuario, usuario, token, loading, signIn, signOut, updateUser }}>
       {children}
     </AuthContext.Provider>
   );
