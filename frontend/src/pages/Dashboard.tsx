@@ -3,7 +3,7 @@ import {useAuth} from '../hooks/useAuth'
 import api from '../services/api';
 
 export function DashboardPage() {
-  const { usuario, token } = useAuth();
+  const { usuario, token, updateUser } = useAuth();
   const [avatar, setAvatar] = useState<File | null>(null);
 
   function handleAvatarChange(e: ChangeEvent<HTMLInputElement>) {
@@ -28,9 +28,9 @@ export function DashboardPage() {
         },
       });
 
+      updateUser(response.data);
+
       alert('Avatar atualizado com sucesso!');
-      // Aqui poderíamos atualizar o 'user' no nosso AuthContext para refletir a mudança imediatamente
-      console.log('Novo usuário:', response.data);
 
     } catch (error) {
       alert('Erro ao atualizar o avatar.');
