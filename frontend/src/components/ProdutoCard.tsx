@@ -1,10 +1,13 @@
 import { type Produto } from "../types/entities";
+import { useCarrinho } from "../hooks/useCarrinho";
 
 interface ProdutoCardProps {
   produto: Produto;
 }
 
 export function ProdutoCard({ produto }: ProdutoCardProps) {
+  const { addProduto } = useCarrinho();
+
   return (
     <div className="bg-white border rounded-lg shadow-md overflow-hidden transform hover:-translate-y-1 transition-transform duration-300">
       <img
@@ -19,7 +22,10 @@ export function ProdutoCard({ produto }: ProdutoCardProps) {
           <span className="text-xl font-bold text-blue-600">
             R$ {produto.preco.toFixed(2).replace('.', ",")}
           </span>
-          <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors">
+          <button 
+            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
+            onClick={() => addProduto(produto)}
+          >
             Adicionar
           </button>
         </div>
