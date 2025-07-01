@@ -7,6 +7,7 @@ import usuarioRotas from './routes/usuario.routes';
 import sessionRoutes from './routes/session.routes';
 import AppError from './errors/AppError';
 import cors from 'cors';
+import pedidoRoutes from './routes/pedido.routes';
 
 // Configuração do Servidor
 const app = express();
@@ -43,6 +44,7 @@ app.use(cors(options));
 app.use('/api', sessionRoutes);
 app.use('/api', produtoRoutes);
 app.use('/api', usuarioRotas);
+app.use('/api', pedidoRoutes);
 
 /* Rotas de Testes */
 app.get('/', (_request: Request, response: Response) => {

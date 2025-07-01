@@ -13,3 +13,9 @@ export interface IUsuario {
   nome: string;
   email: string;
 }
+
+export interface CarrinhoItem extends Produto {
+  quantidade: number;
+}
+
+

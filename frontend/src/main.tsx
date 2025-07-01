@@ -3,11 +3,14 @@ import './index.css'
 import App from './App.tsx'
 import { AuthProvider } from './contexts/AuthContext.tsx'
 import React from 'react'
+import { CarrinhoProvider } from './contexts/CarrinhoContext.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <AuthProvider>
-      <App />
+      <CarrinhoProvider>
+        <App />
+      </CarrinhoProvider>
     </AuthProvider>
   </React.StrictMode>,
 )
