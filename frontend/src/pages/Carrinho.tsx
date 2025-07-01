@@ -1,9 +1,13 @@
 import { useCarrinho } from '../hooks/useCarrinho';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FiTrash2 } from 'react-icons/fi'; 
+import { useAuth } from '../hooks/useAuth';
+import api from '../services/api';
 
 export function CarrinhoPage() {
-  const { carrinho, removeProduto, updateProdutoQuantity } = useCarrinho();
+  const { carrinho, removeProduto, updateProdutoQuantity, clearCarrinho} = useCarrinho();
+  const { signed } = useAuth();
+  const navigate = useNavigate();
 
   // Calcula o subtotal de cada item
   const formatPrice = (price: number) => `R$ ${price.toFixed(2).replace('.', ',')}`;
@@ -12,6 +16,30 @@ export function CarrinhoPage() {
   const total = carrinho.reduce((sum, produto) => {
     return sum + produto.preco * produto.quantidade;
   }, 0);
+
+  // Funcionalidade de Checkout da compra
+  async function handleCheckout() {
+    if (!signed) {
+      alert('Você precisa estar logado para finalizar a compra.');
+      navigate('/login');
+      return;
+    }
+
+    try {
+      await api.post('/pedidos', {
+        items: carrinho,
+        total,
+      });
+
+      alert('Pedido realizado com sucesso!');
+      clearCarrinho();
+      navigate('/dashboard'); // Redireciona para a página do usuário
+
+    } catch (error) {
+      console.error('Falha ao criar pedido:', error);
+      alert('Ocorreu um erro ao finalizar seu pedido. Tente novamente.');
+    }
+  }
 
   return (
     <div className="container mx-auto mt-10">
@@ -87,7 +115,10 @@ export function CarrinhoPage() {
                 <span>Total</span>
                 <span>{formatPrice(total)}</span>
               </div>
-              <button className="w-full mt-6 bg-green-500 text-white py-3 rounded-lg hover:bg-green-600 transition-colors font-bold">
+              <button 
+                onClick={handleCheckout}
+                className="w-full mt-6 bg-green-500 text-white py-3 rounded-lg hover:bg-green-600 transition-colors font-bold"
+              >
                 Finalizar Compra
               </button>
             </div>
