@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { useAuth } from "../hooks/useAuth";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export function LoginPage() {
   const [email, setEmail] = useState('');
@@ -53,6 +53,12 @@ export function LoginPage() {
           </button>
         </div>
       </form>
+      <p className="text-center text-gray-500 text-sm mt-4">
+        Não tem uma conta?{' '}
+        <Link to="/cadastro" className="font-bold text-blue-500 hover:text-blue-800">
+          Cadastre-se
+        </Link>
+      </p>
     </div>
   )
 
