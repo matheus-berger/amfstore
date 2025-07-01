@@ -31,7 +31,8 @@ app.use(express.json());
 /*  Configuração do CORS  */
 
 const urlsOriginsPermitidas = [
-  'http://localhost:5173'
+  'http://localhost:5173',
+  'https://amfstore.vercel.app/'
 ];
 
 const options: cors.CorsOptions = {
@@ -53,7 +54,7 @@ app.use('/api', pedidoRoutes);
 
 /* Rotas de Testes */
 app.get('/', (_request: Request, response: Response) => {
-  return response.json({mensagem: 'Servidor AMFStore'})
+  return response.json({ mensagem: 'Servidor AMFStore' })
 });
 
 // Gerenciador de Erros
